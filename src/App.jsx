@@ -4,6 +4,7 @@ import { BOARDS, CATS, MODE } from './game/constants.js';
 import { sb, SUPABASE_URL, createRoom, getRoom, updateRoom, subscribeRoom, signInGoogle, signOut, ensureProfile, recordResult } from './lib/supabase.js';
 import Game, { EndScreen } from './ui/Game.jsx';
 import Rules from './ui/Rules.jsx';
+import Legal from './ui/Legal.jsx';
 import { DEFAULT_SETTINGS, SettingsForm, catsOf, gameSettings } from './ui/Setup.jsx';
 
 const ls = {
@@ -126,6 +127,7 @@ export default function App() {
   };
 
   // ---------- pantallas ----------
+  if (params.get('legal')) return <Legal kind={params.get('legal')} />;
   if (screen === 'local' && localG) {
     const ctx = { G: localG, dispatch: (a) => setLocalG((s) => reduce(s, a) || s), can: () => true, local: true, myIdx: null, isHost: true };
     if (localG.status === 'ended') return <EndScreen G={localG} onRematch={() => setLocalG(newLocalGame(localG.settings, localG.players.map((p) => p.name)))} onHome={() => { setLocalG(null); ls.del('triplazo-local'); goHome(); }} />;
@@ -198,6 +200,7 @@ export default function App() {
         {localG && localG.status === 'playing' && <button className="ghost" onClick={() => setScreen('local')}>Continuar la partida guardada</button>}
       </section>
       {msg && <p className="note">{msg}</p>}
+      <p className="hint footer"><a href="?legal=privacidad">Privacidad</a> · <a href="?legal=terminos">Condiciones</a></p>
     </Shell>
   );
 }

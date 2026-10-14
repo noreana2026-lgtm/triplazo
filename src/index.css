@@ -225,3 +225,5 @@ details.rules summary{font-weight:800;cursor:pointer}
 .b-rapido .tile .tl{font-size:10px}
 .mini.back{margin-bottom:-4px}
 @media (max-width:380px){.modegrid{grid-template-columns:1fr}.b-grande .tile .tl{font-size:6px}}
+
+.legal h3{margin:8px 0 0;font-size:16px}.legal p,.legal li{max-width:65ch;color:var(--fg)}.legal ul{padding-left:18px}.footer{text-align:center}.footer a,.legal a{color:var(--muted)}
