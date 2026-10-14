@@ -136,7 +136,7 @@ export default function App() {
 
   if (screen === 'room') {
     if (err) return <Shell><p className="note">{err}</p><button className="cta alt" onClick={goHome}>Volver</button></Shell>;
-    if (!myName) return <Shell><NameBox name={name} setName={setName} profile={profile} /><p className="hint">Pon tu nombre para entrar en la sala {code}.</p></Shell>;
+    if (!myName) return <Shell><EnterName code={code} onDone={setName} /></Shell>;
     if (!G) return <Shell><p className="waiting">Conectando con la sala {code}…</p></Shell>;
     const myIdx = G.players.findIndex((p) => p.id === myId);
     const isHost = G.host === myId;
@@ -220,6 +220,19 @@ function NameBox({ name, setName, profile }) {
       <label className="label" htmlFor="myname">Nombre en la partida</label>
       <input id="myname" value={name} maxLength={14} placeholder={profile?.name || 'Tu nombre'} onChange={(e) => setName(e.target.value)} />
     </div>
+  );
+}
+
+function EnterName({ code, onDone }) {
+  const [v, setV] = useState('');
+  const go = (e) => { e.preventDefault(); if (v.trim()) onDone(v.trim()); };
+  return (
+    <form className="section" onSubmit={go}>
+      <h2 className="h2">Sala {code}</h2>
+      <label className="label" htmlFor="enter-name">Tu nombre en la partida</label>
+      <input id="enter-name" value={v} maxLength={14} placeholder="Tu nombre" onChange={(e) => setV(e.target.value)} autoFocus />
+      <button className="cta" type="submit" disabled={!v.trim()}>Entrar en la sala</button>
+    </form>
   );
 }
 
